@@ -1,5 +1,2 @@
-require "football_now/version"
-
-module FootballNow
-  # Your code goes here...
-end
+require_relative "./football_now/version"
+require_relative '../config/environment'
