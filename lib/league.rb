@@ -17,6 +17,10 @@ class FootballNow::League
     new(league_hash[:name])
   end
 
+  def self.create_from_hash(league_hash)
+    new(league_hash[:name]).tap(&:save)
+  end
+
   def self.all
     @@all
   end

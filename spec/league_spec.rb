@@ -10,6 +10,10 @@ describe 'FootballNow::League' do
   end
 
   describe '#create_from_hash' do
-    # check @@all
+    it 'takes a valid formatted hash and creates and saves a League object' do
+      league_hash = {name: "Premier League"}
+      league = FootballNow::League.create_from_hash(league_hash)
+      expect(FootballNow::League.all).to include(league)
+    end
   end
 end
