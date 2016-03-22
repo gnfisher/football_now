@@ -21,18 +21,10 @@ class FootballNow::CLI
 
   def list_leagues
     puts "\n\n"
-    # puts (<<-EOT)
-    # Available Leagues:
-    # ==================
-    # 1. Premier League
-    # 2. Primera Division
-    # 3. Bundesliga
-    # 4. Seria A
-    #
-    # EOT
-
+    puts "Available Leagues:"
+    puts "=================="
     FootballNow::League.all.each.with_index(1) {|league, index| puts "#{index}. #{league}"}
-
+    puts ""
     puts "You can:"
     puts " - type `<#> recent results` for scores"
     puts " - type `<#> get standings` for the league table"
