@@ -12,13 +12,6 @@ class FootballNow::CLI
 
   end
 
-  def welcome_screen
-    puts "Welcome to Football Now"
-    puts "You can:"
-    puts " - type `list leagues` to list all leagues."
-    puts " - type `exit` to quit now."
-  end
-
   def list_leagues
     puts "\n\n"
     puts "Available Leagues:"
@@ -36,6 +29,13 @@ class FootballNow::CLI
     puts "What would you like to do?"
   end
 
+  def welcome_screen
+    puts "Welcome to Football Now"
+    puts "You can:"
+    puts " - type `list leagues` to list all leagues."
+    puts " - type `exit` to quit now."
+  end
+  
   def goodbye_message
     puts "Until next time!"
     exit 0
