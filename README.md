@@ -1,8 +1,14 @@
 # FootballNow
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/football_now`. To experiment with that code, run `bin/console` for an interactive prompt.
+Football Now brings you all the information you need from top Football leagues in Europe.
 
-TODO: Delete this and the text above, and describe your gem
+## Project goals
+
+- User can get latest scores (including live scores if match is ongoing)
+- User can get league standings
+- User can get list of results for a specific team
+- User can get list of upcoming matches for a specific team
+
 
 ## Installation
 
@@ -38,4 +44,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
