@@ -30,10 +30,11 @@ class FootballNow::Scraper
       goals_for_against = row.css('.goals').first.text.split(':')
       team_hash = {
         name:               row.css('.participant_name .team_name_span').text,
+        league:             standings_page.css('.tournament-name').text,
         wins:               row.css('.wins').text,
         draws:              row.css('.draws').text,
         losses:             row.css('.losses').text,
-        standing_in_league: row.css('.rank').text.chomp('.'),
+        standing:           row.css('.rank').text.chomp('.'),
         goals_for:          goals_for_against[0],
         goals_against:      goals_for_against[1]
       }
