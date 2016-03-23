@@ -11,8 +11,16 @@ class FootballNow::Team
     @team_url = team_url if team_url
   end
 
+  def save
+    @@all << self
+  end
+
   def league=(league)
     @league = league
     league.add_team(self)
+  end
+
+  def self.all
+    @@all
   end
 end
