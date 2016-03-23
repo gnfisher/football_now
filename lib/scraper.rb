@@ -1,5 +1,8 @@
 class FootballNow::Scraper
 # Use class methods and Nokogiri to scrape everything.
+
+  extend Capybara::DSL
+
   BASE_URL = "http://www.soccer24.com"
   LEAGUES = ["Premier League", "Primera Division", "Bundesliga", "Serie A"]
 
@@ -28,27 +31,25 @@ class FootballNow::Scraper
     # should take the league_url and generate list of team urls
     # should iterate through each team url creating a hash
     # return the hash
-
     league_page = Nokogiri::HTML(open(league_url))
 
     # team_page_href = league_page.css('.page-tabs .ifmenu li a:contains("Team")').attribute('href').value
     # team_page_url = "#{BASE_URL}#{team_page_href}"
 
     standings_page_href = league_page.css('.page-tabs .ifmenu li a:contains("Standings")').attribute('href').value
-    standings_page_url = "#{BASE_URL}#{standings_page_url}"
+    standings_page_url = "http://www.soccer24.com/england/premier-league/standings/"  #"#{BASE_URL}#{standings_page_url}"
 
-    
+    visit(standings_page_url)
+    # print page.html
 
-    # standings_page = Nokogiri::HTML(open(standings_page_url))
-    # all_teams_rows = standings_page.css('.stats-table-container .stats-table.stats-main tbody tr')
-    #
-    # print all_teams_rows.inspect
+    standings_page = Nokogiri::HTML(page.html)
+    all_teams_rows = standings_page.css('table#table-type-1 tbody tr')
 
     teams = []
 
     all_teams_rows.each do |row|
       team_hash = {
-        name: row.css('td .participant_name .team_name_span').text
+        name: row.css('.participant_name .team_name_span').text
       }
       teams << team_hash
     end
