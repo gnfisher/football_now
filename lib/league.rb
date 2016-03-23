@@ -1,6 +1,6 @@
 class FootballNow::League
 
-  attr_accessor :name, :league_url
+  attr_accessor :name, :league_url, :teams
 
   @@all = []
 
@@ -14,12 +14,17 @@ class FootballNow::League
     @@all << self
   end
 
+  def add_team(team)
+    team.league ||= self
+    @teams << team unless @teams.include? team
+  end
+
   def self.new_from_hash(league_hash)
     new(league_hash[:name], league_hash[:league_url])
   end
 
   def self.create_from_hash(league_hash)
-    new(league_hash[:name], league_hash[:league_url]).tap(&:save)
+    new_from_hash(league_hash).tap(&:save)
   end
 
   def self.all
