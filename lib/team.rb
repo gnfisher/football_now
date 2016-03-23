@@ -7,8 +7,7 @@ class FootballNow::Team
 
   def initialize(name, opt={})
     @name = name
-    @league = opt[:league] if opt[:league]
-    @team_url = opt[:team_url] if opt[:team_url]
+    self.league = opt[:league] if opt[:league]
   end
 
   def save
@@ -21,7 +20,7 @@ class FootballNow::Team
   end
 
   def self.create_from_hash(team_data)
-    new(team_data).tap(&:save)
+    new(team_data[:name], team_data).tap(&:save)
   end
 
   def self.all
