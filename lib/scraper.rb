@@ -1,6 +1,4 @@
 class FootballNow::Scraper
-# Use class methods and Nokogiri to scrape everything.
-
   extend Capybara::DSL
 
   BASE_URL = "http://www.soccer24.com"
@@ -28,20 +26,7 @@ class FootballNow::Scraper
   end
 
   def self.scrape_teams(league_url)
-    # should take the league_url and generate list of team urls
-    # should iterate through each team url creating a hash
-    # return the hash
-    league_page = Nokogiri::HTML(open(league_url))
-
-    # team_page_href = league_page.css('.page-tabs .ifmenu li a:contains("Team")').attribute('href').value
-    # team_page_url = "#{BASE_URL}#{team_page_href}"
-
-    standings_page_href = league_page.css('.page-tabs .ifmenu li a:contains("Standings")').attribute('href').value
-    standings_page_url = "http://www.soccer24.com/england/premier-league/standings/"  #"#{BASE_URL}#{standings_page_url}"
-
-    visit(standings_page_url)
-    # print page.html
-
+    visit(get_standings_page_url)
     standings_page = Nokogiri::HTML(page.html)
     all_teams_rows = standings_page.css('table#table-type-1 tbody tr')
 
@@ -49,7 +34,6 @@ class FootballNow::Scraper
 
     all_teams_rows.each do |row|
       goals_for_against = row.css('.goals').first.text.split(':')
-
       team_hash = {
         name: row.css('.participant_name .team_name_span').text,
         wins: row.css('.wins').text,
@@ -59,9 +43,16 @@ class FootballNow::Scraper
         goals_for: goals_for_against[0],
         goals_against: goals_for_against[1]
       }
+
       teams << team_hash
     end
 
     teams
+  end
+
+  def self.get_standings_page_url
+    league_page = Nokogiri::HTML(open(league_url))
+    standings_page_href = league_page.css('.page-tabs .ifmenu li a:contains("Standings")').attribute('href').value
+    "#{BASE_URL}#{standings_page_href}"
   end
 end
