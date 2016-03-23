@@ -20,6 +20,10 @@ class FootballNow::Team
     league.add_team(self)
   end
 
+  def self.create_from_hash(team_data)
+    new(team_data).tap(&:save)
+  end
+
   def self.all
     @@all
   end

@@ -24,7 +24,7 @@ class FootballNow::League
   end
 
   def self.create_from_hash(league_hash)
-    new(league_hash[:name], league_hash[:league_url]).tap(&:save)
+    new_from_hash(league_hash).tap(&:save)
   end
 
   def self.all
