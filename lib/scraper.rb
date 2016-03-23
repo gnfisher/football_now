@@ -26,7 +26,7 @@ class FootballNow::Scraper
   end
 
   def self.scrape_teams(league_url)
-    visit(get_standings_page_url)
+    visit(get_standings_page_url(league_url))
     standings_page = Nokogiri::HTML(page.html)
     all_teams_rows = standings_page.css('table#table-type-1 tbody tr')
 
@@ -50,7 +50,7 @@ class FootballNow::Scraper
     teams
   end
 
-  def self.get_standings_page_url
+  def self.get_standings_page_url(league_url)
     league_page = Nokogiri::HTML(open(league_url))
     standings_page_href = league_page.css('.page-tabs .ifmenu li a:contains("Standings")').attribute('href').value
     "#{BASE_URL}#{standings_page_href}"
