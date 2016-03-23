@@ -17,6 +17,7 @@ describe 'FootballNow::Scraper' do
       teams = FootballNow::Scraper.scrape_teams(league_url)
 
       expect(teams.sort_by{|h| h[:name] }.first[:name]).to eq('Arsenal')
+      # print teams.inspect
     end
   end
 end
