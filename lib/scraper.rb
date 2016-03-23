@@ -45,9 +45,15 @@ class FootballNow::Scraper
     teams
   end
 
+  private
+
   def self.get_standings_page_url(league_url)
     league_page = Nokogiri::HTML(open(league_url))
     standings_page_href = league_page.css('.page-tabs .ifmenu li a:contains("Standings")').attribute('href').value
     "#{BASE_URL}#{standings_page_href}"
+  end
+
+  def self.get_matches_page_url(league_url)
+    # do stuff and return the url as a string
   end
 end
