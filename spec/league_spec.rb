@@ -16,4 +16,14 @@ describe 'FootballNow::League' do
       expect(FootballNow::League.all).to include(league)
     end
   end
+
+  describe '#add_team' do
+    it 'takes a team object and adds it to the teams array' do
+      league = FootballNow::League.new("Premier League", "www.league.com")
+      team = FootballNow::Team.new(name: "Liverpool")
+
+      league.add_team(team)
+      expect(league.teams).to include(team)
+    end
+  end
 end
