@@ -5,10 +5,10 @@ class FootballNow::Team
 
    @@all = []
 
-  def initialize(name, league = nil, team_url = nil)
+  def initialize(name, opt={})
     @name = name
-    @league = league if league
-    @team_url = team_url if team_url
+    @league = opt[:league] if opt[:league]
+    @team_url = opt[:team_url] if opt[:team_url]
   end
 
   def save
