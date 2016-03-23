@@ -1,8 +1,9 @@
 class FootballNow::Scraper
   extend Capybara::DSL
 
-  # Put these in config later
   BASE_URL = "http://www.soccer24.com"
+
+  # Put this in a config later
   LEAGUES = ["Premier League", "Primera Division", "Bundesliga", "Serie A"]
 
   def self.scrape_leagues
@@ -44,6 +45,8 @@ class FootballNow::Scraper
 
     teams
   end
+
+  private
 
   def self.get_standings_page_url(league_url)
     league_page = Nokogiri::HTML(open(league_url))
