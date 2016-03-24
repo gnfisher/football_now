@@ -7,17 +7,12 @@ class FootballNow::Scraper
 
   def self.scrape_leagues
     league_page = Nokogiri::HTML(open(BASE_URL))
-    leagues = []
 
-    league_page.css('.left-menu').first.css('ul li').each do |row|
+    league_page.css('.left-menu').first.css('ul li').map do |row|
       link_href = row.css('a').attribute('href').value
       league = row.css('a').text
-      LEAGUES.each do |lg|
-        leagues << {name: league, league_url: "#{BASE_URL}#{link_href}"} if lg[/#{league}/]
-      end
-    end
-
-    leagues
+      LEAGUES.include?(league) ? {name: league, league_url: "#{BASE_URL}#{link_href}"} : nil
+    end.compact
   end
 
   def self.scrape_teams(league_url)
