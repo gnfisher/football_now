@@ -3,14 +3,15 @@ require 'spec_helper'
 describe 'FootballNow::Match' do
   describe '#new' do
     it 'dynamically loads options inputed' do
+      home_team = FootballNow::Team.new("Liverpool")
       options = { round: 21, date: "date" }
-      options_two = { home_team: "Liverpool", home_score: 100}
+      options_two = { home_team: home_team, home_score: 100}
       match_one = FootballNow::Match.new(options)
       match_two = FootballNow::Match.new(options_two)
 
       expect(match_one.date).to eq("date")
       expect(match_one.home_team).to be_nil
-      expect(match_two.home_team).to eq("Liverpool")
+      expect(match_two.home_team.name).to eq("Liverpool")
       expect(match_two.home_score).to eq(100)
       expect(match_two.away_score).to be_nil
     end

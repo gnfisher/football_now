@@ -13,6 +13,16 @@ class FootballNow::Match
     opt.each {|method, arg| send("#{method}=", arg) if respond_to?("#{method}=") }
   end
 
+  def home_team=(team)
+    @home_team = team
+    team.add_match(self, 'home_team')
+  end
+
+  def away_team=(team)
+    @away_team = team
+    team.add_match(self, 'away_team')
+  end
+
   def self.create_from_hash(match_hash)
     new(match_hash).tap(&:save)
   end
