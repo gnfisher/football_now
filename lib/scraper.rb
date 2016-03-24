@@ -7,29 +7,28 @@ class FootballNow::Scraper
   LEAGUES = ["Premier League", "Primera Division", "Bundesliga", "Serie A"]
 
   def self.scrape_leagues
-    league_page = Nokogiri::HTML(open(BASE_URL))
-    leagues = []
+    league_list = Nokogiri::HTML(open(BASE_URL)).css('.left-menu').first.css('ul li')
 
-    league_page.css('.left-menu').first.css('ul li').each do |row|
-      link_href = row.css('a').attribute('href').value
-      league = row.css('a').text
-      LEAGUES.each do |lg|
-        leagues << {name: league, league_url: "#{BASE_URL}#{link_href}"} if lg[/#{league}/]
-      end
-    end
+    league_list.map do |row|
+      href      = row.css('a').attribute('href').value
+      league    = row.css('a').text
+      team_hash = {name: league, league_url: "#{BASE_URL}#{href}"}
 
-    leagues
+      LEAGUES.include?(league) ? team_hash : nil
+    end.compact
   end
 
   def self.scrape_teams(league_url)
     visit(get_standings_page_url(league_url))
-    standings_page = Nokogiri::HTML(page.html)
+    standings_page  = Nokogiri::HTML(page.html)
+    standings       = standings_page.css('table#table-type-1 tbody tr')
+    league          = standings_page.css('.tournament-name').text
 
-    standings_page.css('table#table-type-1 tbody tr').map do |row|
-      goals_for_against = row.css('.goals').first.text.split(':')
+    standings.map do |row|
+      goals_for_against     = row.css('.goals').first.text.split(':')
       team_hash = {
         name:               row.css('.participant_name .team_name_span').text,
-        league:             standings_page.css('.tournament-name').text,
+        league:             league,
         wins:               row.css('.wins').text,
         draws:              row.css('.draws').text,
         losses:             row.css('.losses').text,
@@ -43,9 +42,9 @@ class FootballNow::Scraper
   private
 
   def self.get_standings_page_url(league_url)
-    league_page = Nokogiri::HTML(open(league_url))
-    standings_page_href = league_page.css('.page-tabs .ifmenu li a:contains("Standings")').attribute('href').value
-    "#{BASE_URL}#{standings_page_href}"
+    league_page   = Nokogiri::HTML(open(league_url))
+    href          = league_page.css('.page-tabs .ifmenu li a:contains("Standings")').attribute('href').value
+    "#{BASE_URL}#{href}"
   end
 
   def self.get_matches_page_url(league_url)
