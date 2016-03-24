@@ -1,6 +1,5 @@
 class FootballNow::Scraper
   extend Capybara::DSL
-  extend WaitForAjax
 
   BASE_URL = "http://www.soccer24.com"
 
@@ -50,9 +49,26 @@ class FootballNow::Scraper
     sleep(2)
 
     matches_page = Nokogiri::HTML(page.body)
-    rounds = matches_page.css('tr td').collect(&:text)
+    rows = matches_page.css('tbody tr')
 
-    # print rounds.compact.inspect
+    rows.collect do |row|
+      if row.css('td').first.text[/Round/]
+        @@round = row.css('td').first.text.gsub(/Round /, "")
+        nil
+      elsif row.css('td.time').text.empty?
+        nil
+      else
+        score = row.css('td.score').text.split(':')
+        match_hash = {
+          round: @@round,
+          date: row.css('td.time').text,
+          home_team: row.css('td.team-home').text,
+          away_team: row.css('td.team-away').text,
+          home_score: score[0].gsub(/\s/, ""),
+          away_score: score[1].gsub(/\s/, "")
+        }
+      end
+    end.compact
   end
 
   private

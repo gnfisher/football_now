@@ -4,8 +4,9 @@ class FootballNow::Match
 
   # Will need a find_team_by_name function to save team...
 
-  attr_accessor :round, :date, :home_team, :away_team,
-                :home_score, :away_score
+  attr_accessor :round, :date, :home_score, :away_score
+
+  attr_reader :home_team, :away_team
 
   @@all = []
 
@@ -28,7 +29,12 @@ class FootballNow::Match
   end
 
   def self.create_from_hash(match_hash)
-    new(match_hash).tap(&:save)
+    home            = match_hash.delete(:home_team)
+    away            = match_hash.delete(:away_team)
+    match           = new(match_hash).tap(&:save)
+    match.home_team = FootballNow::Team.find_team_by_name(home)
+    match.away_team = FootballNow::Team.find_team_by_name(away)
+    match
   end
 
   def save
