@@ -6,24 +6,26 @@ class FootballNow::Scraper
   LEAGUES = ["Premier League", "Primera Division", "Bundesliga", "Serie A"]
 
   def self.scrape_leagues
-    league_page = Nokogiri::HTML(open(BASE_URL))
+    league_list = Nokogiri::HTML(open(BASE_URL)).css('.left-menu').first.css('ul li')
 
-    league_page.css('.left-menu').first.css('ul li').map do |row|
-      link_href = row.css('a').attribute('href').value
-      league = row.css('a').text
-      LEAGUES.include?(league) ? {name: league, league_url: "#{BASE_URL}#{link_href}"} : nil
+    league_list.map do |row|
+      href  = row.css('a').attribute('href').value
+      league     = row.css('a').text
+      LEAGUES.include?(league) ? {name: league, league_url: "#{BASE_URL}#{href}"} : nil
     end.compact
   end
 
   def self.scrape_teams(league_url)
     visit(get_standings_page_url(league_url))
     standings_page = Nokogiri::HTML(page.html)
+    standings = standings_page.css('table#table-type-1 tbody tr')
+    league = standings_page.css('.tournament-name').text
 
-    standings_page.css('table#table-type-1 tbody tr').map do |row|
+    standings.map do |row|
       goals_for_against = row.css('.goals').first.text.split(':')
       team_hash = {
         name:               row.css('.participant_name .team_name_span').text,
-        league:             standings_page.css('.tournament-name').text,
+        league:             league,
         wins:               row.css('.wins').text,
         draws:              row.css('.draws').text,
         losses:             row.css('.losses').text,
