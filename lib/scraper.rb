@@ -50,8 +50,9 @@ class FootballNow::Scraper
     sleep(2)
 
     matches_page = Nokogiri::HTML(page.body)
-    rounds = matches_page.css('tr.event_round td').collect(&:text)
-    
+    rounds = matches_page.css('tr td').collect(&:text)
+
+    # print rounds.compact.inspect
   end
 
   private
