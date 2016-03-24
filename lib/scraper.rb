@@ -58,14 +58,14 @@ class FootballNow::Scraper
       elsif row.css('td.time').text.empty?
         nil
       else
-        score = row.css('td.score').text.split(':')
-        match_hash = {
-          round: @@round,
-          date: row.css('td.time').text,
-          home_team: row.css('td.team-home').text,
-          away_team: row.css('td.team-away').text,
-          home_score: score[0].gsub(/\s/, ""),
-          away_score: score[1].gsub(/\s/, "")
+        score       = row.css('td.score').text.split(':')
+        match_hash  = {
+          round:        @@round,
+          date:         row.css('td.time').text,
+          home_team:    row.css('td.team-home').text,
+          away_team:    row.css('td.team-away').text,
+          home_score:     score[0].gsub(/\s/, ""),
+          away_score:     score[1].gsub(/\s/, "")
         }
       end
     end.compact
@@ -81,7 +81,7 @@ class FootballNow::Scraper
 
   def self.get_matches_page_url(league_url)
     matches_page   = Nokogiri::HTML(open(league_url))
-    href          = matches_page.css('.page-tabs .ifmenu li a:contains("Results")').attribute('href').value
+    href           = matches_page.css('.page-tabs .ifmenu li a:contains("Results")').attribute('href').value
     "#{BASE_URL}#{href}"
   end
 end
