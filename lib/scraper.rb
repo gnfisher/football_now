@@ -24,9 +24,7 @@ class FootballNow::Scraper
     visit(get_standings_page_url(league_url))
     standings_page = Nokogiri::HTML(page.html)
 
-    teams = []
-
-    standings_page.css('table#table-type-1 tbody tr').each do |row|
+    standings_page.css('table#table-type-1 tbody tr').map do |row|
       goals_for_against = row.css('.goals').first.text.split(':')
       team_hash = {
         name:               row.css('.participant_name .team_name_span').text,
@@ -38,11 +36,7 @@ class FootballNow::Scraper
         goals_for:          goals_for_against[0],
         goals_against:      goals_for_against[1]
       }
-
-      teams << team_hash
     end
-
-    teams
   end
 
   private
