@@ -6,6 +6,7 @@ class FootballNow::Match
 
   attr_accessor :round, :date, :home_team, :away_team,
                 :home_score, :away_score
+  attr_reader   :league
 
   @@all = []
 
@@ -21,6 +22,10 @@ class FootballNow::Match
   def away_team=(team)
     @away_team = team
     team.add_match(self, 'away_team')
+  end
+
+  def league
+    @home_team.league
   end
 
   def self.create_from_hash(match_hash)

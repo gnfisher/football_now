@@ -1,7 +1,7 @@
 class FootballNow::Team
 
-  attr_accessor :name, :league, :wins, :losses, :draws,
-   :goals_for, :goals_against, :standing
+  attr_accessor :name, :league, :wins, :losses, :draws, :goals_for,
+  :goals_against, :standing
   attr_reader :matches
 
    @@all = []
@@ -22,6 +22,7 @@ class FootballNow::Team
   end
 
   # Question: home_team, away_team.. how do we assign relationship here...
+  # somewhere else: matches where self = home_team based on key or the like?
 
   def add_match(match, key)
     match.send("#{key}=", self) unless match.send(key)
