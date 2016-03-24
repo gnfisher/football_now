@@ -19,4 +19,12 @@ describe 'FootballNow::Scraper' do
       expect(teams.sort_by{|h| h[:name] }.first[:league]).to eq('Premier League')
     end
   end
+
+  describe '.scrape_matches' do
+    it 'effectively loads all data via AJAX before scraping' do
+      data = FootballNow::Scraper.scrape_matches("http://www.soccer24.com/england/premier-league/results/")
+
+      
+    end
+  end
 end

@@ -1,5 +1,6 @@
 class FootballNow::Scraper
   extend Capybara::DSL
+  extend WaitForAjax
 
   BASE_URL = "http://www.soccer24.com"
 
@@ -39,6 +40,20 @@ class FootballNow::Scraper
     end
   end
 
+  # Sleep() solution is wonky, but all leagues require at least two clicks of
+  # of the Show more matches link... temp solution.
+  def self.scrape_matches(league_url)
+    visit(get_matches_page_url(league_url))
+    click_link("Show more matches")
+    sleep(2)
+    click_link("Show more matches")
+    sleep(2)
+
+    matches_page = Nokogiri::HTML(page.body)
+    rounds = matches_page.css('tr.event_round td').collect(&:text)
+    
+  end
+
   private
 
   def self.get_standings_page_url(league_url)
@@ -48,6 +63,8 @@ class FootballNow::Scraper
   end
 
   def self.get_matches_page_url(league_url)
-    # do stuff and return the url as a string
+    matches_page   = Nokogiri::HTML(open(league_url))
+    href          = matches_page.css('.page-tabs .ifmenu li a:contains("Results")').attribute('href').value
+    "#{BASE_URL}#{href}"
   end
 end
