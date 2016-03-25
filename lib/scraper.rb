@@ -20,6 +20,7 @@ class FootballNow::Scraper
 
   def self.scrape_teams(league_url)
     visit(get_standings_page_url(league_url))
+    sleep(1)
     standings_page  = Nokogiri::HTML(page.html)
     standings       = standings_page.css('table#table-type-1 tbody tr')
 

@@ -2,4 +2,5 @@
 
 require_relative '../lib/football_now.rb'
 
-FootballNow::CLI.new.call
+FootballNow::Importer.generate
+# FootballNow::CLI.new.call
