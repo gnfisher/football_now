@@ -49,6 +49,7 @@ class FootballNow::Scraper
     sleep(2)
 
     matches_page = Nokogiri::HTML(page.body)
+
     rows = matches_page.css('tbody tr')
 
     rows.collect do |row|
@@ -61,11 +62,11 @@ class FootballNow::Scraper
         score       = row.css('td.score').text.split(':')
         match_hash  = {
           round:        @@round,
-          date:         row.css('td.time').text,
-          home_team:    row.css('td.team-home').text,
-          away_team:    row.css('td.team-away').text,
-          home_score:     score[0].gsub(/\s/, ""),
-          away_score:     score[1].gsub(/\s/, "")
+          date:         row.css('td.time').text.strip,
+          home_team:    row.css('td.team-home').text.gsub(/[[:space:]]/, ' ').strip,
+          away_team:    row.css('td.team-away').text.gsub(/[[:space:]]/, ' ').strip,
+          home_score:   score[0].strip,
+          away_score:   score[1].strip
         }
       end
     end.compact

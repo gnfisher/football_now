@@ -2,9 +2,11 @@ class FootballNow::Importer
 
   def self.generate
     create_leagues
+    puts "#{FootballNow::League.all.count} Leagues loaded..."
     create_teams
-    binding.pry
-    #create_matches
+    puts "#{FootballNow::Team.all.count} Teams loaded..."
+    create_matches
+    puts "#{FootballNow::Match.all.count} Matches loaded..."
   end
 
   def self.create_leagues
@@ -28,8 +30,12 @@ class FootballNow::Importer
   def self.create_matches
     FootballNow::League.all.each do |league|
       matches_hash(league.league_url).each do |match_hash|
-        FootballNow::Team.create_from_hash(team_hash)
+        FootballNow::Match.create_from_hash(match_hash)
       end
     end
+  end
+
+  def self.matches_hash(league_url)
+    FootballNow::Scraper.scrape_matches(league_url)
   end
 end
