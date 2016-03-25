@@ -62,7 +62,7 @@ class FootballNow::CLI
     puts "Loading data from www.soccer24.com..."
     puts "This may take a minute or two..."
     FootballNow::Importer.generate
-    binding.pry
+    # binding.pry
   end
 
   def goodbye_message

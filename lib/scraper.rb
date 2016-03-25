@@ -56,7 +56,7 @@ class FootballNow::Scraper
 
     rows.collect do |row|
       if row.css('td').first.text[/Round/]
-        @@round = row.css('td').first.text.gsub(/Round /, "")
+        @@round = row.css('td').first.text.gsub(/Round /, "").to_i
         nil
       elsif row.css('td.time').text.empty?
         nil
