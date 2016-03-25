@@ -35,7 +35,7 @@ class FootballNow::CLI
     puts " - type `list leagues` to list all leagues."
     puts " - type `exit` to quit now."
   end
-  
+
   def goodbye_message
     puts "Until next time!"
     exit 0
