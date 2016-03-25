@@ -32,8 +32,8 @@ class FootballNow::Match
     home            = match_hash.delete(:home_team)
     away            = match_hash.delete(:away_team)
     match           = new(match_hash).tap(&:save)
-    match.home_team = FootballNow::Team.find_team_by_name(home)
-    match.away_team = FootballNow::Team.find_team_by_name(away)
+    match.home_team = FootballNow::Team.find_by_name(home)
+    match.away_team = FootballNow::Team.find_by_name(away)
     match
   end
 

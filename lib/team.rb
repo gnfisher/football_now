@@ -29,12 +29,15 @@ class FootballNow::Team
     @matches << match
   end
 
-  def self.find_team_by_name(team_name)
+  def self.find_by_name(team_name)
     @@all.detect {|team| team.name.downcase == team_name.downcase}
   end
 
   def self.create_from_hash(team_data)
-    new(team_data[:name], team_data).tap(&:save)
+    lg = team_data.delete(:league)
+    team = new(team_data[:name], team_data).tap(&:save)
+    team.league = FootballNow::League.find_by_name(lg)
+    team
   end
 
   def self.all
