@@ -21,9 +21,6 @@ class FootballNow::Team
     league.add_team(self)
   end
 
-  # Question: home_team, away_team.. how do we assign relationship here...
-  # somewhere else: matches where self = home_team based on key or the like?
-
   def add_match(match, key)
     match.send("#{key}=", self) unless match.send(key)
     @matches << match

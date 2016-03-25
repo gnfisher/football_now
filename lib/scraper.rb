@@ -42,6 +42,7 @@ class FootballNow::Scraper
 
   # Sleep() solution is wonky, but all leagues require at least two clicks of
   # of the Show more matches link... temp solution.
+  # todo: Dynamically click 'Show more matches' only if the link appears
   def self.scrape_matches(league_url)
     visit(get_matches_page_url(league_url))
     click_link("Show more matches")
