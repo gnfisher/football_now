@@ -22,13 +22,12 @@ class FootballNow::Scraper
     visit(get_standings_page_url(league_url))
     standings_page  = Nokogiri::HTML(page.html)
     standings       = standings_page.css('table#table-type-1 tbody tr')
-    league          = standings_page.css('.tournament-name').text
 
     standings.map do |row|
       goals_for_against     = row.css('.goals').first.text.split(':')
       team_hash = {
         name:               row.css('.participant_name .team_name_span').text,
-        league:             league,
+        league:             FootballNow::League.find_by_name(standings_page.css('.tournament-name').text),
         wins:               row.css('.wins').text,
         draws:              row.css('.draws').text,
         losses:             row.css('.losses').text,

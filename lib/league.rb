@@ -19,6 +19,10 @@ class FootballNow::League
     @teams << team unless @teams.include? team
   end
 
+  def self.find_by_name(name)
+    self.all.detect {|league| league.name.downcase == name.downcase}
+  end
+
   def self.new_from_hash(league_hash)
     new(league_hash[:name], league_hash[:league_url])
   end
