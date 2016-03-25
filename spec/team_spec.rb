@@ -40,8 +40,6 @@ describe 'FootballNow::Team' do
       liv = FootballNow::Team.new('Liverpool')
       liv.save
 
-      print FootballNow::Team.all.inspect
-
       expect(FootballNow::Team.find_team_by_name('liverpool')).to eq(liv)
     end
   end
