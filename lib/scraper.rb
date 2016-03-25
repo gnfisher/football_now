@@ -67,8 +67,8 @@ class FootballNow::Scraper
           date:         row.css('td.time').text.strip,
           home_team:    row.css('td.team-home').text.gsub(/[[:space:]]/, ' ').strip,
           away_team:    row.css('td.team-away').text.gsub(/[[:space:]]/, ' ').strip,
-          home_score:   score[0].strip,
-          away_score:   score[1].strip
+          home_score:   score[0].gsub(/[[:space:]]/, ' ').strip,
+          away_score:   score[1].gsub(/[[:space:]]/, ' ').strip
         }
       end
     end.compact

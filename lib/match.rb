@@ -40,4 +40,17 @@ class FootballNow::Match
   def self.all
     @@all
   end
+
+  # def self.get_recent_results(league)
+  #   round_number = most_recent_round_number(league)
+  #
+  #   self.all.select do |result|
+  #     result.round == round_number &&
+  #     result.league == league
+  #   end
+  # end
+  #
+  # def self.most_recent_round_number(league)
+  #   self.all.select {|m| m.league == league}.max {|a,b| a.round <=> b.round}.round
+  # end
 end
