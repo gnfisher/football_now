@@ -2,7 +2,7 @@ class FootballNow::DB
   extend Capybara::DSL
 
   DB_PATH = "#{File.expand_path("..", __dir__)}/data"
-  
+
 
   def self.get_html(url, obj_name)
     # checks if html_file of URL is saved and not expired
@@ -20,7 +20,7 @@ class FootballNow::DB
 
   def self.get_leagues_html(url)
     page_html = open(url).read
-    leagues_file = open('#{DB_PATH}/leagues.html', 'w')
+    leagues_file = open("#{DB_PATH}/leagues.html", "w")
     leagues_file.write(page_html)
     leagues_file.close
     page_html

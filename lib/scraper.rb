@@ -7,7 +7,8 @@ class FootballNow::Scraper
   LEAGUES = ["Premier League", "Primera Division", "Bundesliga", "Serie A"]
 
   def self.scrape_leagues
-    league_list = Nokogiri::HTML(open(BASE_URL)).css('.left-menu').first.css('ul li')
+    doc         = FootballNow::DB.get_html(BASE_URL, 'leagues')
+    league_list = Nokogiri::HTML(doc).css('.left-menu').first.css('ul li')
 
     league_list.map do |row|
       href      = row.css('a').attribute('href').value
