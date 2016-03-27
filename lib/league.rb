@@ -12,6 +12,7 @@ class FootballNow::League
 
   def save
     @@all << self
+    self
   end
 
   def add_team(team)
@@ -45,5 +46,9 @@ class FootballNow::League
 
   def self.get_league_by_index(index)
     self.all[index]
+  end
+
+  def self.reset
+    @@all.clear
   end
 end

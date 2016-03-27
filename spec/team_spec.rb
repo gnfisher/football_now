@@ -6,7 +6,8 @@ describe 'FootballNow::Team' do
   describe '#league=' do
     it 'assigns league to team and adds itself to the leagues array' do
       FootballNow::Team.reset
-      league = FootballNow::League.new("Premier League", "www.league.com")
+      FootballNow::League.reset
+      league = FootballNow::League.new("Premier League", "www.league.com").save
       liverpool = FootballNow::Team.new(name: "Liverpool")
       liverpool.save
       liverpool.league = league
@@ -19,13 +20,15 @@ describe 'FootballNow::Team' do
   describe '#create_from_hash' do
     it 'takes a valid formatted hash and creates and saves a Team object' do
       FootballNow::Team.reset
-      league = FootballNow::League.new("Premier League", "www.league.com")
+      FootballNow::League.reset
+      league = FootballNow::League.new("Premier League", "www.league.com").save
       team_hash = {
         name: "Liverpool",
         team_url: "url",
-        league: league
+        league: "Premier League"
       }
 
+      binding.pry
       team = FootballNow::Team.create_from_hash(team_hash)
       expect(FootballNow::Team.all).to include(team)
       expect(team.name).to eq("Liverpool")
@@ -40,7 +43,7 @@ describe 'FootballNow::Team' do
       liv = FootballNow::Team.new('Liverpool')
       liv.save
 
-      expect(FootballNow::Team.find_team_by_name('liverpool')).to eq(liv)
+      expect(FootballNow::Team.find_by_name('liverpool')).to eq(liv)
     end
   end
 end

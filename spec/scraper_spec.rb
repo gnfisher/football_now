@@ -24,7 +24,7 @@ describe 'FootballNow::Scraper' do
     # it 'effectively loads all data via AJAX before scraping' do
     #   data = FootballNow::Scraper.scrape_matches("http://www.soccer24.com/england/premier-league/results/")
     #
-    #   
+    #
     # end
   end
 end

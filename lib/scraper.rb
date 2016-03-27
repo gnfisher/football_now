@@ -20,9 +20,8 @@ class FootballNow::Scraper
   end
 
   def self.scrape_teams(league_url)
-    visit(get_standings_page_url(league_url))
-    sleep(1)
-    standings_page  = Nokogiri::HTML(page.html)
+    doc             = FootballNow::DB.get_html(get_standings_page_url(league_url), 'teams')
+    standings_page  = Nokogiri::HTML(doc)
     standings       = standings_page.css('table#table-type-1 tbody tr')
     league          = standings_page.css('.tournament-name').text
 
@@ -45,13 +44,14 @@ class FootballNow::Scraper
   # of the Show more matches link... temp solution.
   # todo: Dynamically click 'Show more matches' only if the link appears
   def self.scrape_matches(league_url)
-    visit(get_matches_page_url(league_url))
-    click_link("Show more matches")
-    sleep(2)
-    click_link("Show more matches")
-    sleep(2)
+    # visit(get_matches_page_url(league_url))
+    # click_link("Show more matches")
+    # sleep(2)
+    # click_link("Show more matches")
+    # sleep(2)
 
-    matches_page = Nokogiri::HTML(page.body)
+    doc          = FootballNow::DB.get_html(get_matches_page_url(league_url), 'matches')
+    matches_page = Nokogiri::HTML(doc)
 
     rows = matches_page.css('tbody tr')
 
