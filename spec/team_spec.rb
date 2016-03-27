@@ -28,7 +28,6 @@ describe 'FootballNow::Team' do
         league: "Premier League"
       }
 
-      binding.pry
       team = FootballNow::Team.create_from_hash(team_hash)
       expect(FootballNow::Team.all).to include(team)
       expect(team.name).to eq("Liverpool")

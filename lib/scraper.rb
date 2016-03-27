@@ -7,7 +7,7 @@ class FootballNow::Scraper
   LEAGUES = ["Premier League", "Primera Division", "Bundesliga", "Serie A"]
 
   def self.scrape_leagues
-    doc         = FootballNow::DB.get_html(BASE_URL, 'leagues')
+    doc         = FootballNow::DB.get_html(BASE_URL)
     league_list = Nokogiri::HTML(doc).css('.left-menu').first.css('ul li')
 
     league_list.map do |row|
@@ -20,7 +20,7 @@ class FootballNow::Scraper
   end
 
   def self.scrape_teams(league_url)
-    doc             = FootballNow::DB.get_html(get_standings_page_url(league_url), 'teams')
+    doc             = FootballNow::DB.get_html(get_standings_page_url(league_url))
     standings_page  = Nokogiri::HTML(doc)
     standings       = standings_page.css('table#table-type-1 tbody tr')
     league          = standings_page.css('.tournament-name').text
@@ -50,7 +50,7 @@ class FootballNow::Scraper
     # click_link("Show more matches")
     # sleep(2)
 
-    doc          = FootballNow::DB.get_html(get_matches_page_url(league_url), 'matches')
+    doc          = FootballNow::DB.get_html(get_matches_page_url(league_url))
     matches_page = Nokogiri::HTML(doc)
 
     rows = matches_page.css('tbody tr')
