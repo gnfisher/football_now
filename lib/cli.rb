@@ -2,15 +2,7 @@ class FootballNow::CLI
 
   def call
     welcome_screen
-
-
-
-    case get_user_input
-    when "exit"
-      goodbye_message
-    when "list leagues"
-      list_leagues
-    end
+    list_leagues
   end
 
   def list_leagues
@@ -37,11 +29,20 @@ class FootballNow::CLI
       list_leagues
     when /recent results/
       list_recent_results(input.split("").first.to_i - 1)
+      list_leagues
+    else
+      puts "Sorry, I didn't understand..."
+      list_leagues
     end
   end
 
   def list_recent_results(league_index)
     league  = FootballNow::League.get_league_by_index(league_index)
+
+    puts ""
+    puts "#{league.name.upcase}"
+    puts "Round #{FootballNow::Match.most_recent_round_number(league)}:"
+    puts ""
 
     FootballNow::Match.get_recent_results(league).each do |result|
       puts " #{result.home_score} #{result.home_team.name}"
@@ -53,16 +54,12 @@ class FootballNow::CLI
   def welcome_screen
     puts "Welcome to Football Now"
     load_all_data
-    puts "You can:"
-    puts " - type `list leagues` to list all leagues."
-    puts " - type `exit` to quit now."
   end
 
   def load_all_data
     puts "Loading data from www.soccer24.com..."
     puts "This may take a minute or two..."
     FootballNow::Importer.generate
-    # binding.pry
   end
 
   def goodbye_message
