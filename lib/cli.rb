@@ -21,28 +21,29 @@ class FootballNow::CLI
     puts ""
     puts "What would you like to do?"
 
-    case input = get_user_input
+    input = get_user_input
+    league  = FootballNow::League.get_league_by_index(input.split("").first.to_i - 1) if input =~ /^\d/
+
+    case input
     when "exit"
       goodbye_message
     when /^\D/
       puts "Sorry, I didn't understand..."
       list_leagues
     when /recent results/
-      list_recent_results(input.split("").first.to_i - 1)
+      list_recent_results(league)
       list_leagues
     when /get standings/
-      get_standings(input.split("").first.to_i - 1)
+      get_standings(league)
     when /list teams/
-      list_teams(input.split("").first.to_i - 1)
+      list_teams(league)
     else
       puts "Sorry, I didn't understand..."
       list_leagues
     end
   end
 
-  def list_recent_results(league_index)
-    league  = FootballNow::League.get_league_by_index(league_index)
-
+  def list_recent_results(league)
     puts ""
     puts "#{league.name.upcase}"
     puts "Round #{league.current_round}:"
@@ -53,10 +54,12 @@ class FootballNow::CLI
       puts " #{result.away_score} #{result.away_team.name}"
       puts ""
     end
+
+    puts "Hit enter to go back or exit to quit."
+    goodbye_message if get_user_input.downcase == "exit"
   end
 
-  def get_standings(league_index)
-    league = FootballNow::League.get_league_by_index(league_index)
+  def get_standings(league)
     table  = league.get_standings
 
     puts ""
@@ -66,23 +69,19 @@ class FootballNow::CLI
     puts ""
     puts "Hit enter to return to league list or exit to quit."
 
-    if get_user_input.downcase != "exit"
-      list_leagues
-    else
-      goodbye_message
-    end
+    get_user_input.downcase == "exit" ? goodbye_message : list_leagues
   end
 
-  def list_teams(league_index)
-    league = FootballNow::League.get_league_by_index(league_index)
-
+  def list_teams(league)
     puts ""
     puts "#{league.name.upcase} : Up to Round #{league.current_round}"
     puts ""
+
     format = '%-4s %-20s'
     league.teams.sort_by{|team| team.name}.each_with_index do |team, index|
       puts format % [index + 1, team.name]
     end
+
     puts ""
     puts "You can:"
     puts " - type `<#> results` for all results"
@@ -95,15 +94,15 @@ class FootballNow::CLI
     puts "What would you like to do?"
 
     input = get_user_input
-    team = league.teams.sort_by{|team| team.name}[input.to_i + 1] if input =~ /^\d/
+    team = league.teams.sort_by{|team| team.name}[input.to_i - 1] if input =~ /^\d/
 
     case input
     when /results/
       list_all_results(team)
-      list_teams(league_index)
+      list_teams(league)
     when /stats/
       list_stats(team)
-      list_teams(league_index)
+      list_teams(league)
     when /back/
       list_leagues
     when /exit/
@@ -136,7 +135,6 @@ class FootballNow::CLI
     format = '%-5s %-5s %-8s %-10s %-10s %-13s %s'
     puts format % ['Wins', 'Draws', 'Losses', 'Points', 'Goals For', 'Goals Against', 'Matches Played']
     puts format % [ team.wins, team.draws, team.losses, team.points, team.goals_for, team.goals_against, team.matches.size ]
-
     puts "Hit enter to go back or exit to quit."
     goodbye_message if get_user_input.downcase == "exit"
   end
