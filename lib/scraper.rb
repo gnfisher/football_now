@@ -1,10 +1,12 @@
 class FootballNow::Scraper
+
   extend Capybara::DSL
 
   BASE_URL = "http://www.soccer24.com"
-
-  # Put this in a config later
-  LEAGUES = ["Premier League", "Primera Division", "Bundesliga", "Serie A"]
+  LEAGUES = [
+    "Premier League",     "Primera Division",
+    "Bundesliga",         "Serie A"
+  ]
 
   def self.scrape_leagues
     doc         = FootballNow::DB.get_html(BASE_URL)
@@ -23,13 +25,12 @@ class FootballNow::Scraper
     doc             = FootballNow::DB.get_html(get_standings_page_url(league_url))
     standings_page  = Nokogiri::HTML(doc)
     standings       = standings_page.css('table#table-type-1 tbody tr')
-    league          = standings_page.css('.tournament-name').text
 
     standings.map do |row|
       goals_for_against     = row.css('.goals').first.text.split(':')
       team_hash = {
         name:               row.css('.participant_name .team_name_span').text,
-        league:             league,
+        league:             standings_page.css('.tournament-name').text,
         wins:               row.css('.wins').text,
         draws:              row.css('.draws').text,
         losses:             row.css('.losses').text,
@@ -41,22 +42,12 @@ class FootballNow::Scraper
     end
   end
 
-  # Sleep() solution is wonky, but all leagues require at least two clicks of
-  # of the Show more matches link... temp solution.
-  # todo: Dynamically click 'Show more matches' only if the link appears
   def self.scrape_matches(league_url)
-    # visit(get_matches_page_url(league_url))
-    # click_link("Show more matches")
-    # sleep(2)
-    # click_link("Show more matches")
-    # sleep(2)
-
     doc          = FootballNow::DB.get_html(get_matches_page_url(league_url))
     matches_page = Nokogiri::HTML(doc)
+    rows         = matches_page.css('tbody tr')
 
-    rows = matches_page.css('tbody tr')
-
-    rows.collect do |row|
+    rows.map do |row|
       if row.css('td').first.text[/Round/]
         @@round = row.css('td').first.text.gsub(/Round /, "").to_i
         nil
@@ -79,14 +70,14 @@ class FootballNow::Scraper
   private
 
   def self.get_standings_page_url(league_url)
-    league_page   = Nokogiri::HTML(open(league_url))
-    href          = league_page.css('.page-tabs .ifmenu li a:contains("Standings")').attribute('href').value
+    league_page = Nokogiri::HTML(open(league_url))
+    href        = league_page.css('.page-tabs .ifmenu li a:contains("Standings")').attribute('href').value
     "#{BASE_URL}#{href}"
   end
 
   def self.get_matches_page_url(league_url)
-    matches_page   = Nokogiri::HTML(open(league_url))
-    href           = matches_page.css('.page-tabs .ifmenu li a:contains("Results")').attribute('href').value
+    matches_page = Nokogiri::HTML(open(league_url))
+    href         = matches_page.css('.page-tabs .ifmenu li a:contains("Results")').attribute('href').value
     "#{BASE_URL}#{href}"
   end
 end
