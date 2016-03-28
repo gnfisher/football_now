@@ -1,7 +1,6 @@
 class FootballNow::Match
 
   attr_accessor :round, :date, :home_score, :away_score
-
   attr_reader :home_team, :away_team
 
   @@all = []
