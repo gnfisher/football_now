@@ -9,7 +9,6 @@ class FootballNow::Team
   def initialize(name, opt={})
     @name = name
     @matches = []
-    self.league = opt[:league] if opt[:league]
     opt.each {|method, arg| send("#{method}=", arg) if self.respond_to?("#{method}=")}
   end
 
@@ -33,10 +32,7 @@ class FootballNow::Team
   end
 
   def self.create_from_hash(team_data)
-    lg = team_data.delete(:league)
     team = new(team_data[:name], team_data).tap(&:save)
-    team.league = FootballNow::League.find_by_name(lg)
-    team
   end
 
   def self.all

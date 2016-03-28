@@ -25,7 +25,7 @@ describe 'FootballNow::Team' do
       team_hash = {
         name: "Liverpool",
         team_url: "url",
-        league: "Premier League",
+        league: league,
         wins: "100",
         losses: "0"
       }

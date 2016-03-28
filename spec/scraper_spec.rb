@@ -13,10 +13,11 @@ describe 'FootballNow::Scraper' do
   describe '.scrape_teams' do
     it 'creates an array of team objects from a league url' do
       league_url = "http://www.soccer24.com/england/premier-league/"
+      league = FootballNow::League.find_by_name('Premier League')
       teams = FootballNow::Scraper.scrape_teams(league_url)
 
       expect(teams.sort_by{|h| h[:name] }.first[:name]).to eq('Arsenal')
-      expect(teams.sort_by{|h| h[:name] }.first[:league]).to eq('Premier League')
+      expect(teams.sort_by{|h| h[:name] }.first[:league]).to eq(league)
       expect(teams.sort_by{|h| h[:name] }.first[:wins]).to eq('16')
     end
   end
