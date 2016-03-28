@@ -36,8 +36,8 @@ describe 'FootballNow::Match' do
       manutd = FootballNow::Team.new("Man Utd")
       manutd.save
       match_hash = {
-        home_team: "Liverpool",
-        away_team: "Man Utd",
+        home_team: liverpool,
+        away_team: manutd,
         home_score: "100",
         away_score: "0"
       }

@@ -55,11 +55,13 @@ class FootballNow::Scraper
         nil
       else
         score       = row.css('td.score').text.split(':')
+        home_team   = row.css('td.team-home').text.gsub(/[[:space:]]/, ' ').strip
+        away_team   = row.css('td.team-away').text.gsub(/[[:space:]]/, ' ').strip
         match_hash  = {
           round:        @@round,
           date:         row.css('td.time').text.strip,
-          home_team:    row.css('td.team-home').text.gsub(/[[:space:]]/, ' ').strip,
-          away_team:    row.css('td.team-away').text.gsub(/[[:space:]]/, ' ').strip,
+          home_team:    FootballNow::Team.find_by_name(home_team),
+          away_team:    FootballNow::Team.find_by_name(away_team),
           home_score:   score[0].gsub(/[[:space:]]/, ' ').strip,
           away_score:   score[1].gsub(/[[:space:]]/, ' ').strip
         }

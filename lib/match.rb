@@ -25,16 +25,12 @@ class FootballNow::Match
   end
 
   def self.create_from_hash(match_hash)
-    home            = match_hash.delete(:home_team)
-    away            = match_hash.delete(:away_team)
-    match           = new(match_hash).tap(&:save)
-    match.home_team = FootballNow::Team.find_by_name(home)
-    match.away_team = FootballNow::Team.find_by_name(away)
-    match
+    new(match_hash).tap(&:save)
   end
 
   def save
     @@all << self
+    self
   end
 
   def self.all
