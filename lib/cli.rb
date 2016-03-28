@@ -30,6 +30,9 @@ class FootballNow::CLI
     when /recent results/
       list_recent_results(input.split("").first.to_i - 1)
       list_leagues
+    when /get standings/
+      get_standings(input.split("").first.to_i - 1)
+      list_leagues
     else
       puts "Sorry, I didn't understand..."
       list_leagues
@@ -48,6 +51,33 @@ class FootballNow::CLI
       puts " #{result.home_score} #{result.home_team.name}"
       puts " #{result.away_score} #{result.away_team.name}"
       puts ""
+    end
+  end
+
+  def get_standings(league_index)
+    league = FootballNow::League.get_league_by_index(league_index)
+    table  = league.get_standings
+
+    puts ""
+    puts "#{league.name.upcase}"
+    puts "==================="
+    puts ""
+    print_table(table)
+    puts ""
+    puts "Hit enter to return to league list or exit to quit."
+
+    if get_user_input.downcase != "exit"
+      list_leagues
+    else
+      goodbye_message
+    end
+  end
+
+  def print_table(table)
+    format = '%-4s %-20s %-3s %-3s %-3s %s'
+    puts format % ['#', 'Team', 'W', 'D', 'L', 'Pts']
+    table.each do |team|
+      puts format % [ team.standing, team.name, team.wins, team.draws, team.losses, team.points]
     end
   end
 

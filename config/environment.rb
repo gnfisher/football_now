@@ -4,6 +4,7 @@ require 'nokogiri'
 require 'capybara'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
+require 'formatador'
 require 'pry'
 
 Capybara.default_driver = :poltergeist

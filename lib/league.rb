@@ -24,6 +24,10 @@ class FootballNow::League
     @teams.map { |team| team.matches }.flatten.uniq
   end
 
+  def get_standings
+    @teams.sort {|a, b| a.standing <=> b.standing }
+  end
+
   def self.find_by_name(name)
     self.all.detect {|league| league.name.downcase == name.downcase}
   end

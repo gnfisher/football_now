@@ -1,7 +1,7 @@
 class FootballNow::Team
 
   attr_accessor :name, :league, :wins, :losses, :draws, :goals_for,
-  :goals_against, :standing
+  :goals_against, :points, :standing
   attr_reader :matches
 
    @@all = []

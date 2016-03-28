@@ -35,7 +35,8 @@ class FootballNow::Scraper
         losses:             row.css('.losses').text,
         standing:           row.css('.rank').text.chomp('.'),
         goals_for:          goals_for_against[0],
-        goals_against:      goals_for_against[1]
+        goals_against:      goals_for_against[1],
+        points:             row.css('.goals')[1].text
       }
     end
   end
