@@ -1,8 +1,10 @@
 class FootballNow::CLI
 
   def call
+    binding.pry
     welcome_screen
     list_leagues
+
   end
 
   def list_leagues
