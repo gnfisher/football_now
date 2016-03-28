@@ -25,7 +25,11 @@ class FootballNow::League
   end
 
   def get_standings
-    @teams.sort {|a, b| a.standing <=> b.standing }
+    @teams.sort {|a, b| a.standing.to_i <=> b.standing.to_i }
+  end
+
+  def current_round
+    FootballNow::Match.most_recent_round_number(self)
   end
 
   def self.find_by_name(name)

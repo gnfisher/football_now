@@ -44,7 +44,7 @@ class FootballNow::CLI
 
     puts ""
     puts "#{league.name.upcase}"
-    puts "Round #{FootballNow::Match.most_recent_round_number(league)}:"
+    puts "Round #{league.current_round}:"
     puts ""
 
     FootballNow::Match.get_recent_results(league).each do |result|
@@ -59,9 +59,8 @@ class FootballNow::CLI
     table  = league.get_standings
 
     puts ""
-    puts "#{league.name.upcase}"
-    puts "==================="
-    puts ""
+    puts "#{league.name.upcase} : Up to Round #{league.current_round}"
+    puts "=========================================="
     print_table(table)
     puts ""
     puts "Hit enter to return to league list or exit to quit."
