@@ -17,6 +17,7 @@ describe 'FootballNow::Scraper' do
 
       expect(teams.sort_by{|h| h[:name] }.first[:name]).to eq('Arsenal')
       expect(teams.sort_by{|h| h[:name] }.first[:league]).to eq('Premier League')
+      expect(teams.sort_by{|h| h[:name] }.first[:wins]).to eq('16')
     end
   end
 

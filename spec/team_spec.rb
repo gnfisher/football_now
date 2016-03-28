@@ -25,12 +25,15 @@ describe 'FootballNow::Team' do
       team_hash = {
         name: "Liverpool",
         team_url: "url",
-        league: "Premier League"
+        league: "Premier League",
+        wins: "100",
+        losses: "0"
       }
 
       team = FootballNow::Team.create_from_hash(team_hash)
       expect(FootballNow::Team.all).to include(team)
       expect(team.name).to eq("Liverpool")
+      expect(team.wins).to eq("100")
       expect(team.league.name).to eq("Premier League")
       expect(league.teams).to include(team)
     end

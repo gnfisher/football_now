@@ -8,12 +8,14 @@ class FootballNow::Team
 
   def initialize(name, opt={})
     @name = name
-    self.league = opt[:league] if opt[:league]
     @matches = []
+    self.league = opt[:league] if opt[:league]
+    opt.each {|method, arg| send("#{method}=", arg) if self.respond_to?("#{method}=")}
   end
 
   def save
     @@all << self
+    self
   end
 
   def league=(league)
