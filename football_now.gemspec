@@ -35,5 +35,4 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "require_all"
   spec.add_runtime_dependency "capybara"
   spec.add_runtime_dependency "poltergeist"
-  spec.add_runtime_dependency "phantomjs"
 end

@@ -4,8 +4,6 @@ require 'nokogiri'
 require 'capybara'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
-require 'phantomjs'
-require 'phantomjs/poltergeist'
 
 
 Capybara.default_driver = :poltergeist
@@ -15,7 +13,6 @@ Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(
     app,
     js_errors:         false,
-    phantomjs:         Phantomjs.path,
     phantomjs_options: ['--load-images=false', '--disk-cache=false']
   )
 end
