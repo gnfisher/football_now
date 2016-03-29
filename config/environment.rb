@@ -4,7 +4,9 @@ require 'nokogiri'
 require 'capybara'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
-require_all "../lib"
+require_relative "../lib/football_now/version"
+Dir["../lib/*.rb"].each {|file| require file }
+# require_all "../lib"
 
 
 Capybara.default_driver = :poltergeist
