@@ -4,7 +4,8 @@ require 'nokogiri'
 require 'capybara'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
-require_all 'lib'
+require_all "lib"
+
 
 Capybara.default_driver = :poltergeist
 Capybara.run_server = false
