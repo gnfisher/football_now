@@ -4,8 +4,7 @@ require 'nokogiri'
 require 'capybara'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
-require_relative "../lib/football_now/version"
-Dir["../lib/*.rb"].each {|file| require file }
+Dir["lib/*.rb"].each {|file| require_relative "../#{file}" }
 # require_all "../lib"
 
 
