@@ -1,5 +1,5 @@
 module FootballNow
-  VERSION = "0.1.1"
+  VERSION = "0.1.2"
 
   # Football Now Config options
   #
