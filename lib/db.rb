@@ -9,7 +9,7 @@ class FootballNow::DB
     if File.exists?(file_path) && not_expired?(file_path)
       File.read(file_path)
     else
-      return_html(url_array)
+      return_html(url_array, url)
     end
   end
 
@@ -61,7 +61,7 @@ class FootballNow::DB
     leagues_file.close
   end
 
-  def self.return_html(url_array)
+  def self.return_html(url_array, url)
     url_array[1] == nil ? get_leagues_html(url) : send("get_#{url_array[3]}_html", url)
   end
 end
