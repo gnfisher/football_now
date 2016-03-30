@@ -110,7 +110,7 @@ class FootballNow::CLI
       goodbye_message
     else
       puts "Sorry, I didn't understand you."
-      list_teams
+      list_teams(league)
     end
   end
 
