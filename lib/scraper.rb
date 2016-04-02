@@ -1,3 +1,4 @@
+require 'pry'
 class FootballNow::Scraper
 
   extend Capybara::DSL
@@ -24,13 +25,13 @@ class FootballNow::Scraper
   def self.scrape_teams(league_url)
     doc             = FootballNow::DB.get_html(get_standings_page_url(league_url))
     standings_page  = Nokogiri::HTML(doc)
-    standings       = standings_page.css('table#table-type-1 tbody tr')
+    standings       = standings_page.css('table.stats-table tbody tr')
     league          = standings_page.css('.tournament-name').text
 
     standings.map do |row|
       goals_for_against     = row.css('.goals').first.text.split(':')
       team_hash = {
-        name:               row.css('.participant_name .team_name_span').text,
+        name:               row.css('.participant_name .team_name_span a').text,
         league:             FootballNow::League.find_by_name(league),
         wins:               row.css('.wins').text,
         draws:              row.css('.draws').text,
