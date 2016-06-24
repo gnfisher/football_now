@@ -6,7 +6,7 @@ class FootballNow::DB
     url_array = strip_url(url)
     file_path = file_path_from(url_array)
 
-    if File.exists?(file_path) && not_expired?(file_path)
+    if File.exists?(file_path) #&& not_expired?(file_path)
       File.read(file_path)
     else
       return_html(url_array, url)

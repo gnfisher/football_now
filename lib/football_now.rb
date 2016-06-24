@@ -1,3 +1,3 @@
 # require "football_now/version"
 
-require "environment"
+require_relative "../config/environment"

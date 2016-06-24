@@ -17,11 +17,11 @@ Capybara.register_driver :poltergeist do |app|
   )
 end
 
-require 'football_now/version'
-require 'cli'
-require 'db'
-require 'importer'
-require 'league'
-require 'match'
-require 'scraper'
-require 'team'
+require_relative '../lib/football_now/version'
+require_relative '../lib/cli'
+require_relative '../lib/db'
+require_relative '../lib/importer'
+require_relative '../lib/league'
+require_relative '../lib/match'
+require_relative '../lib/scraper'
+require_relative '../lib/team'

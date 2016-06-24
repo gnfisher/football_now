@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'football_now.rb'
+require_relative '../lib/football_now.rb'
 
 FootballNow::CLI.new.call
